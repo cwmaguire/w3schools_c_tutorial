@@ -32,8 +32,10 @@ int main(int argc, char *argv[]){ // char *argv[] is an array of pointers to cha
   long long_args[argc];
   long str_args_index = 0;
   char *str_args[argc];
-  char long_flag[3] = "-i";
-  char str_flag[3] = "-s";
+  //char long_flag[3] = "-i";
+  char *long_flag = "-i";
+  //char str_flag[3] = "-s";
+  char *str_flag = "-s";
 
   // printf("long_flag: |%s|; str_flag |%s|\n", long_flag, str_flag);
   // printf("None: %i; INT: %i; STR: %i\n", NONE, INT, STR);
