@@ -28,7 +28,7 @@ int main(){
                    {"%H", "24 hour"}};
                    // etc.
 
-  struct tm *t = localtime(&current);
+  struct tm *t = localtime(&current); // could also do `time(NULL);`
   char formatted_date[50];
   size_t size;
   char pad[30] = "                             ";
@@ -47,8 +47,11 @@ int main(){
     //        sizeof(padding) - strlen(f[i].desc),
     //        sizeof(padding),
     //        padding);
-    printf("%s:%s%s; (%li)\n", f[i].desc, padding, formatted_date, size);
+    printf("%s - %s:%s%s; (%li)\n", f[i].fmt, f[i].desc, padding, formatted_date, size);
   }
+
+  printf("\n\n");
+  printf("Year: %i\n", t->tm_year);
 
   return 0;
 }
