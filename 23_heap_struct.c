@@ -22,6 +22,9 @@ int main(){
     printf("Person name: %s; age: %i\n", p[i].name, p[i].age);
   }
 
+  p->age = 1000; // use the -> operator instead of an array subscript
+  printf("Person name: %s; age: %i\n", p->name, p->age);
+
   free(p);
 
   return 0;
