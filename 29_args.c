@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){ // char *argv[] is an array of pointers to cha
       arg_type = INT;
       i++;
     }else if(arg_type == INT){
-      long_args[long_args_index] = strtol(argv[i], NULL, BASE_10);
+      long_args[long_args_index] = atoi(argv[i]); // strtol(argv[i], NULL, BASE_10);
       long_args_index++;
       arg_type = NONE;
       i++;
