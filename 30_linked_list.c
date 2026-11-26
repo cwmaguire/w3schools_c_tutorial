@@ -21,12 +21,13 @@ typedef union {
 
 Link *link_new(Type, void *);
 void link_free(Link *);
+void list_free(Link *);
 
 int main(){
  
   char *v1 = "foo";
-  //int v2 = 99;
-  //char v3 = 'a';
+  int v2 = 99;
+  char v3 = 'a';
 
   printf("%p - v1 pointer to char *\n", v1);
   Link *link = link_new(STR, v1);
@@ -34,7 +35,12 @@ int main(){
   printf("%p - link\n", (void *)link);
   printf("%p - link->val\n", link->val);
   printf("%s - link->val\n", (char *)link->val);
-  //link_append(link, link_new(INT, v2));
+
+  Link *link2 = link_new(INT, &v2);
+  link->next = (void *)link2;
+
+  Link *link3 = link_new(CHAR, &v3);
+  ((Link *)link->next)->next = (void *)link3;
   //link_append(link, link_new(CHAR, v3));
   
   //while(node != NULL){
@@ -48,7 +54,10 @@ int main(){
   //  node = node.l.next;
   //}
 
-  link_free(link);
+  // link_free(link);
+  // link_free(link2);
+  // link_free(link3);
+  list_free(link);
 
   return 0;
 }
@@ -71,9 +80,9 @@ Link *link_new(Type t, void *val){
     strcpy(new_val, val);            // copies the NULL, but I don't think we have one
     ((char *) new_val)[size] = '\0'; // pop the NULL on the end
   }else if(t == INT){
-    new_val = (int *) val;
+    *(int *)new_val = *(int *)val;
   }else if(t == CHAR){
-    new_val = (char *) val;
+    *(char *)new_val = *(char *)val;
   }else{
     printf("Did not match type: %i\n", t);
   }
@@ -89,4 +98,11 @@ void link_free(Link *link){
   free(link->val);
   printf("%p - Freeing link\n", (void *)link);
   free(link);
+}
+
+void list_free(Link *link){
+  if(link->next != NULL){
+    list_free((Link *)link->next);
+  }
+  link_free(link);
 }
