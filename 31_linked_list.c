@@ -21,6 +21,7 @@ Link *str_link(char *);
 Link *int_link(int *);
 Link *char_link(char *);
 Link *new_link(Type, void *);
+void print_link_value(Link *);
 
 int main(){
  
@@ -28,31 +29,17 @@ int main(){
   int v2 = 99;
   char v3 = 'a';
 
-  printf("%p - v1 pointer to char *\n", v1);
   Link *link = link_new(STR, v1);
-
-  printf("%p - link\n", (void *)link);
-  printf("%p - link->val\n", link->val);
-  printf("%s - link->val\n", (char *)link->val);
 
   Link *link2 = link_new(INT, (void *) &v2);
   link->next = (void *)link2;
 
   Link *link3 = link_new(CHAR, (void *) &v3);
   ((Link *)link->next)->next = (void *)link3;
-  //link_append(link, link_new(CHAR, v3));
   
   Link *next = link;
-   while (next != NULL){
-    if(next->t == STR){
-      printf("value: %s\n", (char *)next->val);
-    }else if(next->t == INT){
-      printf("value: %i\n", *(int *)next->val);
-    }else if(next->t == CHAR){
-      printf("value: %c\n", *(char *)next->val);
-    }else{
-      printf("Type doesn't match: %i\n", next->t);
-    }
+  while (next != NULL){
+    print_link_value(next);
     next = next->next;
   }
 
@@ -60,7 +47,6 @@ int main(){
 
   return 0;
 }
-
 
 Link *link_new(Type t, void *val){
   switch(t){
@@ -101,6 +87,18 @@ Link *new_link(Type t, void *val){
   Link *new = malloc(sizeof(Link));
   *new = (Link){.val = val, .t = t, .next = NULL};
   return new;
+}
+
+void print_link_value(Link *link){
+  if(link->t == STR){
+    printf("value: %s\n", (char *)link->val);
+  }else if(link->t == INT){
+    printf("value: %i\n", *(int *)link->val);
+  }else if(link->t == CHAR){
+    printf("value: %c\n", *(char *)link->val);
+  }else{
+    printf("Type doesn't match: %i\n", link->t);
+  }
 }
 
 void link_free(Link *link){
